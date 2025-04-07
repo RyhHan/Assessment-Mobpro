@@ -2,17 +2,18 @@
 <resources>
     <string name="app_name">Caltrack</string>
     <string name="input_title">Masukkan Data Anda</string>
-    <string name="label_weight">Berat (kg)</string>
-    <string name="label_height">Tinggi (cm)</string>
-    <string name="label_age">Usia (tahun)</string>
-    <string name="label_calories_consumed">Kalori yang Dikonsumsi Hari Ini (kkal)</string>
+    <string name="label_weight">Berat</string>
+    <string name="label_height">Tinggi</string>
+    <string name="label_age">Usia</string>
+    <string name="label_calories_consumed">Kalori yang Dikonsumsi Hari Ini</string>
     <string name="label_gender">Jenis kelamin:</string>
     <string name="label_activity">Aktivitas Fisik:</string>
     <string name="label_select">Memilih</string>
+    <string name="year">tahun</string>
     <string name="gender_male">Pria</string>
     <string name="gender_female">Perempuan</string>
     <string name="btn_calculate">Hitung Kalori</string>
-    <string name="error_invalid_input">Harap isi semua data dengan benar!</string>
+    <string name="error_invalid_input">Harap isi data dengan benar!</string>
     <string name="status_low">❗Asupan kalori Anda DI BAWAH kebutuhan harian Anda.</string>
     <string name="status_high">⚠️Asupan kalori Anda DI ATAS kebutuhan harian Anda.</string>
     <string name="status_normal">✅Asupan kalori Anda SESUAI dengan kebutuhan harian Anda.</string>
@@ -22,4 +23,5 @@
     <string name="activity_moderate">Sedang</string>
     <string name="activity_heavy">Berat</string>
     <string name="activity_very_heavy">Sangat berat</string>
+
 </resources>

@@ -2,20 +2,22 @@
     <string name="app_name">Caltrack</string>
 
     <string name="input_title">Enter Your Data</string>
-    <string name="label_weight">Weight (kg)</string>
-    <string name="label_height">Height (cm)</string>
-    <string name="label_age">Age (years)</string>
-    <string name="label_calories_consumed">Calories Consumed Today (kcal)</string>
+    <string name="label_weight">Weight</string>
+    <string name="label_height">Height</string>
+    <string name="label_age">Age</string>
+    <string name="label_calories_consumed">Calories Consumed Today</string>
     <string name="label_gender">Gender:</string>
     <string name="label_activity">Physical Activity:</string>
     <string name="label_select">Select</string>
+
+    <string name="year">years</string>
 
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
 
     <string name="btn_calculate">Calculate Calories</string>
 
-    <string name="error_invalid_input">Please fill in all the data correctly!</string>
+    <string name="error_invalid_input">Please fill the data correctly!</string>
     <string name="status_low">❗Your calorie intake is BELOW your daily needs.</string>
     <string name="status_high">⚠️Your calorie intake is ABOVE your daily needs.</string>
     <string name="status_normal">✅Your calorie intake is WITHIN your daily needs.</string>
