@@ -5,12 +5,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
@@ -26,6 +30,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.andimuhammadraihansyamsu607062330113.asesment1.R
@@ -54,11 +60,20 @@ fun MainScreen() {
 @Composable
 fun ScreenContent(modifier: Modifier = Modifier) {
     var berat by remember { mutableStateOf("") }
+    var beratError by remember { mutableStateOf(false) }
+
     var tinggi by remember { mutableStateOf("") }
+    var tinggiError by remember { mutableStateOf(false) }
+
     var usia by remember { mutableStateOf("") }
+    var usiaError by remember { mutableStateOf(false) }
+
     var gender by remember { mutableStateOf("Pria") }
     var aktivitas by remember { mutableStateOf("Ringan") }
+
     var kaloriKonsumsi by remember { mutableStateOf("") }
+    var kaloriKonsumsiError by remember { mutableStateOf(false) }
+
     var hasil by remember { mutableStateOf("") }
 
     val aktivitasList = listOf("Sangat ringan", "Ringan", "Sedang", "Berat", "Sangat berat")
@@ -70,12 +85,20 @@ fun ScreenContent(modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Masukkan Data Anda", style = MaterialTheme.typography.titleMedium)
+        Text(text = stringResource(id = R.string.input_title), style = MaterialTheme.typography.titleMedium)
 
         OutlinedTextField(
             value = berat,
             onValueChange = { berat = it },
-            label = { Text("Berat (kg)") },
+            label = { Text(text = stringResource(id = R.string.label_weight)) },
+            trailingIcon = {IconPicker(beratError, "kg")},
+            supportingText = { ErrorHint(beratError) },
+            isError = beratError,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
@@ -84,7 +107,15 @@ fun ScreenContent(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = tinggi,
             onValueChange = { tinggi = it },
-            label = { Text("Tinggi (cm)") },
+            label = { Text(text = stringResource(id = R.string.label_height)) },
+            trailingIcon = {IconPicker(tinggiError, "cm")},
+            supportingText = { ErrorHint(tinggiError) },
+            isError = tinggiError,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
@@ -93,18 +124,26 @@ fun ScreenContent(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = usia,
             onValueChange = { usia = it },
-            label = { Text("Usia (tahun)") },
+            label = { Text(text = stringResource(id = R.string.label_age)) },
+            trailingIcon = {IconPicker(usiaError, stringResource(id = R.string.year))},
+            supportingText = { ErrorHint(usiaError) },
+            isError = usiaError,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
         )
 
-        Text("Jenis Kelamin:", modifier = Modifier.padding(top = 8.dp))
-        Row {
+        Text(text = stringResource(id = R.string.label_gender), modifier = Modifier.padding(top = 16.dp))
+        Row (modifier = Modifier.padding(top = 2.dp), verticalAlignment = Alignment.CenterVertically) {
             RadioButton(selected = gender == "Pria", onClick = { gender = "Pria" })
-            Text("Pria", modifier = Modifier.padding(end = 16.dp))
+            Text(text = stringResource(id = R.string.gender_male))
             RadioButton(selected = gender == "Wanita", onClick = { gender = "Wanita" })
-            Text("Wanita")
+            Text(text = stringResource(id = R.string.gender_female))
         }
 
         Text("Aktivitas Fisik:", modifier = Modifier.padding(top = 8.dp))
@@ -113,7 +152,15 @@ fun ScreenContent(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = kaloriKonsumsi,
             onValueChange = { kaloriKonsumsi = it },
-            label = { Text("Kalori yang Dikonsumsi Hari Ini (kkal)") },
+            label = { Text(text = stringResource(id = R.string.label_calories_consumed)) },
+            trailingIcon = {IconPicker(kaloriKonsumsiError,"kcal")},
+            supportingText = { ErrorHint(kaloriKonsumsiError) },
+            isError = kaloriKonsumsiError,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
@@ -121,13 +168,21 @@ fun ScreenContent(modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
+                beratError = ((berat.isEmpty() || berat == "0" || (berat.toDoubleOrNull()
+                    ?: 0.0) <= 0.0))
+                tinggiError = ((tinggi.isEmpty() || tinggi == "0" || (tinggi.toDoubleOrNull()
+                    ?: 0.0) <= 0.0))
+                usiaError = ((usia.isEmpty() || usia == "0" || (usia.toIntOrNull() ?: 0) <= 0))
+                kaloriKonsumsiError = ((kaloriKonsumsi.isEmpty() || kaloriKonsumsi == "0" || (kaloriKonsumsi.toDoubleOrNull()
+                    ?: 0.0) <= 0.0))
+
                 val b = berat.toDoubleOrNull()
                 val t = tinggi.toDoubleOrNull()
                 val u = usia.toIntOrNull()
                 val konsumsi = kaloriKonsumsi.toDoubleOrNull()
 
-                if (b == null || t == null || u == null || konsumsi == null) {
-                    hasil = "Mohon isi semua data dengan benar!"
+                if (beratError || tinggiError || usiaError || kaloriKonsumsiError || b == null || t == null || u == null || konsumsi == null) {
+                    return@Button
                 } else {
                     val kaloriTotal = hitungKalori(gender, b, t, u, aktivitas)
                     val status = when {
@@ -142,7 +197,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
             },
             modifier = Modifier.padding(top = 16.dp)
         ) {
-            Text("Hitung Kalori")
+            Text(text = stringResource(id = R.string.btn_calculate))
         }
 
         if (hasil.isNotBlank()) {
@@ -155,6 +210,21 @@ fun ScreenContent(modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+fun IconPicker(isError: Boolean,unit: String) {
+    if (isError) {
+        Icon(imageVector = Icons.Filled.Warning, contentDescription = null)
+    }else{
+        Text(text = unit)
+    }
+}
+
+@Composable
+fun ErrorHint(isError: Boolean){
+    if (isError){
+        Text(text =  stringResource(id = R.string.error_invalid_input))
+    }
+}
 
 fun hitungKalori(
     gender: String,
@@ -200,7 +270,7 @@ fun DropdownMenuBox(
             value = selected,
             onValueChange = {},
             readOnly = true,
-            label = { Text("Pilih") },
+            label = { Text(text = stringResource(id = R.string.label_select)) },
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
