@@ -18,13 +18,13 @@
     <string name="status_high">⚠️Asupan kalori Anda DI ATAS kebutuhan harian Anda.</string>
     <string name="status_normal">✅Asupan kalori Anda SESUAI dengan kebutuhan harian Anda.</string>
     <string name="result_template">Kebutuhan kalori harian Anda: %1$d kkal Kalori yang dikonsumsi: %2$d kkal</string>
-    <string name="suggestion_over">Anda harus mengurangi kalori Anda</string>
     <string name="activity_very_light">Sangat ringan</string>
     <string name="activity_light">Ringan</string>
     <string name="activity_moderate">Sedang</string>
     <string name="activity_heavy">Berat</string>
     <string name="activity_very_heavy">Sangat berat</string>
-    <string name="suggestion_less">Anda harus meningkatkan kalori Anda</string>
-    <string name="suggestion_good">Asupan kalori Anda baik</string>
+    <string name="share_template">🎯 Hasil Cek Kalori Hari Ini!\\n\\n         🔹 Kebutuhan Kalori Harian: %1$d kkal\\n         🔹 Kalori yang Dikonsumsi: %2$d kkal\\n         %3$s\\n\\n         Cek kebutuhan kalori kamu juga di Caltrack!</string>
+    <string name="share_chooser_title">Bagikan hasil cek kalori dengan:</string>
+    <string name="btn_share">Bagikan Hasil</string>
 
 </resources>

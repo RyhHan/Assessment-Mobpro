@@ -22,13 +22,20 @@
     <string name="status_high">⚠️Your calorie intake is ABOVE your daily needs.</string>
     <string name="status_normal">✅Your calorie intake is WITHIN your daily needs.</string>
     <string name="result_template">Your daily calorie needs: %1$d kcal\nCalories consumed today: %2$d kcal</string>
-    <string name="suggestion_less">You should increase your calories</string>
-    <string name="suggestion_good">Your calorie intake is good</string>
-    <string name="suggestion_over">You should lower your calories</string>
 
     <string name="activity_very_light">Very light</string>
     <string name="activity_light">Light</string>
     <string name="activity_moderate">Moderate</string>
     <string name="activity_heavy">Heavy</string>
     <string name="activity_very_heavy">Very heavy</string>
+
+    <string name="share_template">
+        🎯 Today\'s Calorie Check Result!\n\n
+        🔹 Daily Calorie Needs: %1$d kcal\n
+        🔹 Calories Consumed: %2$d kcal\n
+        %3$s\n\n
+        Check your calorie needs too on Caltrack!
+    </string>
+    <string name="share_chooser_title">Share your calorie check result via:</string>
+    <string name="btn_share">Share Result</string>
 </resources>
