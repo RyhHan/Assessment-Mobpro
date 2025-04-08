@@ -1,5 +1,8 @@
 package com.andimuhammadraihansyamsu607062330113.asesment1.ui.screen
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +29,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -85,6 +89,8 @@ fun ScreenContent(modifier: Modifier = Modifier) {
 
     var hasil by remember { mutableStateOf("") }
     var cekHasil by remember { mutableStateOf("") }
+
+    var kaloriTotal by remember { mutableDoubleStateOf(0.0) }
 
     val aktivitasList = listOf("Sangat ringan", "Ringan", "Sedang", "Berat", "Sangat berat")
 
@@ -194,7 +200,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
                 if (beratError || tinggiError || usiaError || kaloriKonsumsiError || b == null || t == null || u == null || konsumsi == null) {
                     return@Button
                 } else {
-                    val kaloriTotal = hitungKalori(gender, b, t, u, aktivitas)
+                    kaloriTotal = hitungKalori(gender, b, t, u, aktivitas)
 
                     cekHasil = when {
                         konsumsi < kaloriTotal * 0.9 -> "less"
@@ -256,8 +262,41 @@ fun ScreenContent(modifier: Modifier = Modifier) {
                     modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterHorizontally)
                 )
 
+                Button(
+                    onClick = {
+                        shareData(
+                            context = context,
+                            message = context.getString(
+                                R.string.share_template,
+                                kaloriTotal.toInt(),
+                                kaloriKonsumsi.toInt(),
+                                context.getString(
+                                    when (cekHasil) {
+                                        "good" -> R.string.status_normal
+                                        "less" -> R.string.status_low
+                                        else -> R.string.status_high
+                                    }
+                                )
+                            )
+                        )
+                    },
+                    modifier = Modifier.padding(top = 12.dp)
+                ) {
+                    Text(text = stringResource(id = R.string.btn_share))
+                }
             }
         }
+    }
+}
+
+@SuppressLint("QueryPermissionsNeeded")
+private fun shareData(context: Context, message: String) {
+    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, message)
+    }
+    if (shareIntent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(shareIntent)
     }
 }
 
