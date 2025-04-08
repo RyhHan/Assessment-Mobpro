@@ -41,4 +41,11 @@
     
     <string name="appinfo">App Info &amp; Tips</string>
     <string name="back">Back</string>
+
+    <string name="app_info_description">This app helps you calculate your daily calorie needs based on your personal data.It,s lightweight, user-friendly, and supports two languages.</string>
+
+    <string name="health_tips_title">Healthy Lifestyle Tips</string>
+    <string name="health_tips_1">• Eat a balanced and nutritious diet every day.</string>
+    <string name="health_tips_2">• Do physical activity for at least 30 minutes a day.</string>
+    <string name="health_tips_3">• Stay hydrated and get enough sleep.</string>
 </resources>

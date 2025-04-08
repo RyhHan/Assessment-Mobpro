@@ -28,5 +28,10 @@
     <string name="btn_share">Bagikan Hasil</string>
     <string name="appinfo">Info &amp; Tip Aplikasi</string>
     <string name="back">Kembali</string>
+    <string name="app_info_description">Aplikasi ini membantu Anda menghitung kebutuhan kalori harian berdasarkan data pribadi.          Mudah digunakan, ringan, dan mendukung dua bahasa.</string>
+    <string name="health_tips_title">Tips Pola Hidup Sehat</string>
+    <string name="health_tips_1">• Konsumsi makanan bergizi seimbang setiap hari.</string>
+    <string name="health_tips_2">• Lakukan aktivitas fisik minimal 30 menit sehari.</string>
+    <string name="health_tips_3">• Cukupi kebutuhan air minum dan istirahat yang cukup.</string>
 
 </resources>
