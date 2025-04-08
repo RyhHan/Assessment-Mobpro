@@ -1,9 +1,11 @@
 package com.andimuhammadraihansyamsu607062330113.asesment1.ui.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -29,11 +31,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.andimuhammadraihansyamsu607062330113.asesment1.R
 import com.andimuhammadraihansyamsu607062330113.asesment1.ui.theme.Asesment1Theme
 
@@ -59,6 +67,7 @@ fun MainScreen() {
 
 @Composable
 fun ScreenContent(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     var berat by remember { mutableStateOf("") }
     var beratError by remember { mutableStateOf(false) }
 
@@ -75,6 +84,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
     var kaloriKonsumsiError by remember { mutableStateOf(false) }
 
     var hasil by remember { mutableStateOf("") }
+    var cekHasil by remember { mutableStateOf("") }
 
     val aktivitasList = listOf("Sangat ringan", "Ringan", "Sedang", "Berat", "Sangat berat")
 
@@ -185,14 +195,18 @@ fun ScreenContent(modifier: Modifier = Modifier) {
                     return@Button
                 } else {
                     val kaloriTotal = hitungKalori(gender, b, t, u, aktivitas)
-                    val status = when {
-                        konsumsi < kaloriTotal * 0.9 -> "❗Kalori Anda KURANG dari kebutuhan harian."
-                        konsumsi > kaloriTotal * 1.1 -> "⚠️Kalori Anda BERLEBIHAN dari kebutuhan harian."
-                        else -> "✅Kalori Anda SESUAI kebutuhan harian."
+
+                    cekHasil = when {
+                        konsumsi < kaloriTotal * 0.9 -> "less"
+                        konsumsi > kaloriTotal * 1.1 -> "over"
+                        else -> "good"
                     }
 
-                    hasil = "Kebutuhan kalori harian Anda: ${kaloriTotal.toInt()} kkal\n" +
-                            "Kalori yang dikonsumsi: ${konsumsi.toInt()} kkal\n\n$status"
+                    hasil = context.getString(
+                        R.string.result_template,
+                        kaloriTotal.toInt(),
+                        konsumsi.toInt(),
+                    )
                 }
             },
             modifier = Modifier.padding(top = 16.dp)
@@ -201,11 +215,48 @@ fun ScreenContent(modifier: Modifier = Modifier) {
         }
 
         if (hasil.isNotBlank()) {
-            Text(
-                text = hasil,
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = 16.dp)
-            )
+            val imageResId = when (cekHasil) {
+                "good" -> R.drawable.good
+                "less" -> R.drawable.less
+                else -> R.drawable.over
+            }
+            Column(
+                modifier = Modifier.padding(top = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(
+                        imageResId
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier.size(100.dp)
+                )
+
+                val hasilResId = when (cekHasil) {
+                    "good" -> R.string.status_normal
+                    "less" -> R.string.status_low
+                    else -> R.string.status_high
+                }
+                Text(
+                    text = stringResource(id = hasilResId),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        color = Color(0xFF1E88E5)
+                    ),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxWidth()
+                )
+
+                Text(
+                    text = hasil,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterHorizontally)
+                )
+
+            }
         }
     }
 }
@@ -239,7 +290,6 @@ fun hitungKalori(
         655.1 + (9.563 * berat) + (1.850 * tinggi) - (4.676 * usia)
     }
 
-    // Faktor aktivitas
     val faktorAktivitas = when (aktivitas) {
         "Sangat ringan" -> 1.2
         "Ringan" -> 1.375
