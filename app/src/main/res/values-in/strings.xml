@@ -17,11 +17,14 @@
     <string name="status_low">❗Asupan kalori Anda DI BAWAH kebutuhan harian Anda.</string>
     <string name="status_high">⚠️Asupan kalori Anda DI ATAS kebutuhan harian Anda.</string>
     <string name="status_normal">✅Asupan kalori Anda SESUAI dengan kebutuhan harian Anda.</string>
-    <string name="result_template">Kebutuhan kalori harian Anda: %1$d kkal Kalori yang dikonsumsi: %2$d kkal  %3$s</string>
+    <string name="result_template">Kebutuhan kalori harian Anda: %1$d kkal Kalori yang dikonsumsi: %2$d kkal</string>
+    <string name="suggestion_over">Anda harus mengurangi kalori Anda</string>
     <string name="activity_very_light">Sangat ringan</string>
     <string name="activity_light">Ringan</string>
     <string name="activity_moderate">Sedang</string>
     <string name="activity_heavy">Berat</string>
     <string name="activity_very_heavy">Sangat berat</string>
+    <string name="suggestion_less">Anda harus meningkatkan kalori Anda</string>
+    <string name="suggestion_good">Asupan kalori Anda baik</string>
 
 </resources>

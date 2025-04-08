@@ -21,7 +21,10 @@
     <string name="status_low">❗Your calorie intake is BELOW your daily needs.</string>
     <string name="status_high">⚠️Your calorie intake is ABOVE your daily needs.</string>
     <string name="status_normal">✅Your calorie intake is WITHIN your daily needs.</string>
-    <string name="result_template">Your daily calorie needs: %1$d kcal\nCalories consumed: %2$d kcal\n\n%3$s</string>
+    <string name="result_template">Your daily calorie needs: %1$d kcal\nCalories consumed today: %2$d kcal</string>
+    <string name="suggestion_less">You should increase your calories</string>
+    <string name="suggestion_good">Your calorie intake is good</string>
+    <string name="suggestion_over">You should lower your calories</string>
 
     <string name="activity_very_light">Very light</string>
     <string name="activity_light">Light</string>
