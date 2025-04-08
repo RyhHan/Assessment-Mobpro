@@ -2,6 +2,7 @@ package com.andimuhammadraihansyamsu607062330113.asesment1.ui.screen
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -14,12 +15,14 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
@@ -32,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,12 +50,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.andimuhammadraihansyamsu607062330113.asesment1.R
+import com.andimuhammadraihansyamsu607062330113.asesment1.navigation.Screen
 import com.andimuhammadraihansyamsu607062330113.asesment1.ui.theme.Asesment1Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(navController: NavHostController) {
     Scaffold (
         topBar = {
             TopAppBar(
@@ -61,7 +68,18 @@ fun MainScreen() {
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary
-                )
+                ),
+                actions = {
+                    IconButton(onClick = {
+                        navController.navigate(Screen.AppInfoAndTips.route)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Outlined.Info,
+                            contentDescription = stringResource(R.string.appinfo),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
             )
         }
     ) { innerPadding ->
@@ -72,25 +90,25 @@ fun MainScreen() {
 @Composable
 fun ScreenContent(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    var berat by remember { mutableStateOf("") }
-    var beratError by remember { mutableStateOf(false) }
+    var berat by rememberSaveable { mutableStateOf("") }
+    var beratError by rememberSaveable { mutableStateOf(false) }
 
-    var tinggi by remember { mutableStateOf("") }
-    var tinggiError by remember { mutableStateOf(false) }
+    var tinggi by rememberSaveable { mutableStateOf("") }
+    var tinggiError by rememberSaveable { mutableStateOf(false) }
 
-    var usia by remember { mutableStateOf("") }
-    var usiaError by remember { mutableStateOf(false) }
+    var usia by rememberSaveable { mutableStateOf("") }
+    var usiaError by rememberSaveable { mutableStateOf(false) }
 
-    var gender by remember { mutableStateOf("Pria") }
-    var aktivitas by remember { mutableStateOf("Ringan") }
+    var gender by rememberSaveable { mutableStateOf("Pria") }
+    var aktivitas by rememberSaveable { mutableStateOf("Ringan") }
 
-    var kaloriKonsumsi by remember { mutableStateOf("") }
-    var kaloriKonsumsiError by remember { mutableStateOf(false) }
+    var kaloriKonsumsi by rememberSaveable { mutableStateOf("") }
+    var kaloriKonsumsiError by rememberSaveable { mutableStateOf(false) }
 
-    var hasil by remember { mutableStateOf("") }
-    var cekHasil by remember { mutableStateOf("") }
+    var hasil by rememberSaveable { mutableStateOf("") }
+    var cekHasil by rememberSaveable { mutableStateOf("") }
 
-    var kaloriTotal by remember { mutableDoubleStateOf(0.0) }
+    var kaloriTotal by rememberSaveable { mutableDoubleStateOf(0.0) }
 
     val aktivitasList = listOf("Sangat ringan", "Ringan", "Sedang", "Berat", "Sangat berat")
 
@@ -387,9 +405,10 @@ fun DropdownMenuBox(
 }
 
 @Preview(showBackground = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 fun MainScreenPreview() {
     Asesment1Theme {
-        MainScreen()
+        MainScreen(rememberNavController())
     }
 }

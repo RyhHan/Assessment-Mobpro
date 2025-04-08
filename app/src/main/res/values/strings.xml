@@ -38,4 +38,7 @@
     </string>
     <string name="share_chooser_title">Share your calorie check result via:</string>
     <string name="btn_share">Share Result</string>
+    
+    <string name="appinfo">App Info &amp; Tips</string>
+    <string name="back">Back</string>
 </resources>

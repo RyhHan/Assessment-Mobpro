@@ -26,5 +26,7 @@
     <string name="share_template">🎯 Hasil Cek Kalori Hari Ini!\\n\\n         🔹 Kebutuhan Kalori Harian: %1$d kkal\\n         🔹 Kalori yang Dikonsumsi: %2$d kkal\\n         %3$s\\n\\n         Cek kebutuhan kalori kamu juga di Caltrack!</string>
     <string name="share_chooser_title">Bagikan hasil cek kalori dengan:</string>
     <string name="btn_share">Bagikan Hasil</string>
+    <string name="appinfo">Info &amp; Tip Aplikasi</string>
+    <string name="back">Kembali</string>
 
 </resources>

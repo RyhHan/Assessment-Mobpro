@@ -56,4 +56,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.core.ktx.v160)
+    implementation(libs.androidx.navigation.compose)
 }
