@@ -87,6 +87,7 @@ fun MainScreen(navController: NavHostController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenContent(modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -100,7 +101,6 @@ fun ScreenContent(modifier: Modifier = Modifier) {
     var usiaError by rememberSaveable { mutableStateOf(false) }
 
     var gender by rememberSaveable { mutableStateOf("Pria") }
-    var aktivitas by rememberSaveable { mutableStateOf("Ringan") }
 
     var kaloriKonsumsi by rememberSaveable { mutableStateOf("") }
     var kaloriKonsumsiError by rememberSaveable { mutableStateOf(false) }
@@ -110,7 +110,14 @@ fun ScreenContent(modifier: Modifier = Modifier) {
 
     var kaloriTotal by rememberSaveable { mutableDoubleStateOf(0.0) }
 
-    val aktivitasList = listOf("Sangat ringan", "Ringan", "Sedang", "Berat", "Sangat berat")
+    val aktivitasList = listOf(
+        stringResource(id = R.string.activity_very_light),
+        stringResource(id = R.string.activity_light),
+        stringResource(id = R.string.activity_moderate),
+        stringResource(id = R.string.activity_heavy),
+        stringResource(id = R.string.activity_very_heavy)
+    )
+    var aktivitas by rememberSaveable { mutableStateOf(aktivitasList[0]) }
 
     Column(
         modifier = modifier
@@ -180,8 +187,44 @@ fun ScreenContent(modifier: Modifier = Modifier) {
             Text(text = stringResource(id = R.string.gender_female))
         }
 
-        Text("Aktivitas Fisik:", modifier = Modifier.padding(top = 8.dp))
-        DropdownMenuBox(options = aktivitasList, selected = aktivitas, onSelected = { aktivitas = it })
+        Text(text = stringResource(id = R.string.label_activity), modifier = Modifier.padding(top = 8.dp))
+
+        var expanded by remember { mutableStateOf(false) }
+
+        ExposedDropdownMenuBox (
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded }
+        ) {
+            @Suppress("DEPRECATION")
+            OutlinedTextField(
+                value = aktivitas,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text(text = stringResource(id = R.string.label_select)) },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                },
+                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor(                    )
+            )
+
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                aktivitasList.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            aktivitas = option
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
 
         OutlinedTextField(
             value = kaloriKonsumsi,
@@ -218,7 +261,16 @@ fun ScreenContent(modifier: Modifier = Modifier) {
                 if (beratError || tinggiError || usiaError || kaloriKonsumsiError || b == null || t == null || u == null || konsumsi == null) {
                     return@Button
                 } else {
-                    kaloriTotal = hitungKalori(gender, b, t, u, aktivitas)
+                    val faktorAktivitas = when (aktivitas) {
+                        context.getString(R.string.activity_very_light) -> 1.2
+                        context.getString(R.string.activity_light) -> 1.375
+                        context.getString(R.string.activity_moderate) -> 1.55
+                        context.getString(R.string.activity_heavy) -> 1.725
+                        context.getString(R.string.activity_very_heavy) -> 1.9
+                        else -> 1.2
+                    }
+
+                    kaloriTotal = hitungKalori(gender, b, t, u, faktorAktivitas)
 
                     cekHasil = when {
                         konsumsi < kaloriTotal * 0.9 -> "less"
@@ -339,7 +391,7 @@ fun hitungKalori(
     berat: Double,
     tinggi: Double,
     usia: Int,
-    aktivitas: String
+    faktorAktivitas: Double
 ): Double {
     val bmr = if (gender == "Pria") {
         66.5 + (13.75 * berat) + (5.003 * tinggi) - (6.75 * usia)
@@ -347,62 +399,9 @@ fun hitungKalori(
         655.1 + (9.563 * berat) + (1.850 * tinggi) - (4.676 * usia)
     }
 
-    val faktorAktivitas = when (aktivitas) {
-        "Sangat ringan" -> 1.2
-        "Ringan" -> 1.375
-        "Sedang" -> 1.55
-        "Berat" -> 1.725
-        "Sangat berat" -> 1.9
-        else -> 1.2
-    }
-
     return bmr * faktorAktivitas
 }
 
-@Suppress("DEPRECATION")
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DropdownMenuBox(
-    options: List<String>,
-    selected: String,
-    onSelected: (String) -> Unit
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = !expanded }
-    ) {
-        OutlinedTextField(
-            value = selected,
-            onValueChange = {},
-            readOnly = true,
-            label = { Text(text = stringResource(id = R.string.label_select)) },
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-            },
-            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .menuAnchor()
-        )
-
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = {
-                        onSelected(option)
-                        expanded = false
-                    }
-                )
-            }
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)

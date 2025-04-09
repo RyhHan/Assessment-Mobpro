@@ -19,7 +19,7 @@
     <string name="status_normal">✅Asupan kalori Anda SESUAI dengan kebutuhan harian Anda.</string>
     <string name="result_template">Kebutuhan kalori harian Anda: %1$d kkal Kalori yang dikonsumsi: %2$d kkal</string>
     <string name="activity_very_light">Sangat ringan</string>
-    <string name="activity_light">Ringan</string>
+    <string name="activity_light">Ringanasd</string>
     <string name="activity_moderate">Sedang</string>
     <string name="activity_heavy">Berat</string>
     <string name="activity_very_heavy">Sangat berat</string>
